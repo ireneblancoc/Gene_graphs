@@ -22,7 +22,14 @@ library(patchwork)
 ```
 
 
+Setting up the palette and reading input files:
+
+```{r}
 palette<-c("#d79935", "#7361cd", "#5bb748", "#c454ba", "#a7b542", "#a978be", "#64be86", "#d54271", "#39804b", "#d24d33", "#46bcc5", "#c3704f", "#5e87cb", "#69792c", "#e183a9", "#a78b4a", "#9e4765")
+
+GeneMap <- read.csv("GeneMap.txt", sep = "\t")
+CobMap_introns <- read.csv("CobMap_introns.txt", sep = "\t")
+```
 
 # whole mitogenome plot
 
@@ -35,16 +42,17 @@ ggplot(GeneMap, aes(xmin = start, xmax = end, y = molecule, fill = gene,
   theme_genes()
 ```
 
-#cob plot
+# cob plot
 
 ```{r}
 palette2<-c("#d79935", "#46bcc5", "#d54271")
 #AG-A
-AGA <- ggplot(subset(GeneMap, molecule == "AG-A" & gene == "cob"),
+(AGA <- ggplot(subset(GeneMap, molecule == "AG-A" & gene == "cob"),
        aes(xmin = start, xmax = end, y = molecule)) +
   geom_gene_arrow() +
   geom_subgene_arrow(data = subset(CobMap_introns, molecule == "AG-A" & gene == "cob"),
     aes(xsubmin = from, xsubmax = to, fill = subgene) ) + scale_fill_manual(values = palette2)
+)
 ```
 
 #AG-E
